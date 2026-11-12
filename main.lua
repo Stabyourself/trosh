@@ -1,4 +1,6 @@
 function love.load()
+	isweb = love.system.getOS() == "Web"
+	
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	
 	require "class"
@@ -126,7 +128,49 @@ function love.load()
 	laserdelay = 0
 	reallaserdelay = 0.4
 	starttimer = 0
-	changegamestate("menu")
+	if isweb then
+		--browsers need a keypress before playing sound
+		changegamestate("clicktostart")
+	else
+		changegamestate("menu")
+	end
+end
+
+function clicktostart_load()
+	love.graphics.setBackgroundColor(153/255, 217/255, 234/255)
+	startrequested = false
+end
+
+function clicktostart_update(dt)
+	rainbowi = math.fmod(rainbowi + dt/2, 1)
+	sini = math.fmod(sini + dt*10, math.pi*2)
+	sini2 = math.fmod(sini2 + dt*5, math.pi*2)
+	
+	if startrequested then
+		starttimer = 0
+		changegamestate("menu")
+	end
+end
+
+function clicktostart_draw()
+	love.graphics.setColor(getrainbowcolor(rainbowi, 420))
+	draw(titleimg, 50, 23, math.sin(sini)/10, (math.sin(sini2)+1)/5+0.7, (math.sin(sini2)+1)/5+0.7, 50, 13)
+	
+	if math.fmod(starttimer*2, 2) < 1.4 then
+		love.graphics.setColor(1, 0, 0)
+		properprint("press any key", 24, 50, scale/2)
+	end
+	love.graphics.setColor(1, 1, 1)
+end
+
+function clicktostart_keypressed()
+	startrequested = true
+end
+
+function love.mousepressed()
+	if gamestate == "clicktostart" then
+		startrequested = true
+	end
 end
 
 function love.update(dt)
@@ -188,7 +232,7 @@ function love.draw()
 	end
 	
 	
-	if gamestate ~= "menu" and gamestate ~= "scene6" and not landing then
+	if gamestate ~= "menu" and gamestate ~= "clicktostart" and gamestate ~= "scene6" and not landing then
 		local r, g, b = unpack(getrainbowcolor(rainbowi))
 		
 		local ar = r + (1-r)*scoreanim
