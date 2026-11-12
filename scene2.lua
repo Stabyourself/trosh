@@ -57,7 +57,7 @@ function scene2_draw()
 	end
 	
 	for i = 1, 2 do
-		draw(groundimg, -math.mod(scrollx, 100) + (i-1)*100, 59)
+		draw(groundimg, -math.fmod(scrollx, 100) + (i-1)*100, 59)
 	end
 	for i, v in pairs(bushes) do
 		v:draw()
@@ -69,7 +69,7 @@ function scene2_draw()
 		v:draw()
 	end
 	
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(1, 1, 1, 1)
 	
 	rockets[1]:draw()
 end

@@ -1,5 +1,5 @@
 function menu_load()
-	love.graphics.setBackgroundColor(153, 217, 234)
+	love.graphics.setBackgroundColor(153/255, 217/255, 234/255)
 	clouds = {}
 	bushes = {}
 	love.audio.play(bgmusic)
@@ -33,9 +33,9 @@ function menu_update(dt)
 	
 	scrollx = scrollx + dt*50
 	
-	rainbowi = math.mod(rainbowi + dt/2, 1)
-	sini = math.mod(sini + dt*10, math.pi*2)
-	sini2 = math.mod(sini2 + dt*5, math.pi*2)
+	rainbowi = math.fmod(rainbowi + dt/2, 1)
+	sini = math.fmod(sini + dt*10, math.pi*2)
+	sini2 = math.fmod(sini2 + dt*5, math.pi*2)
 	
 	if starttimer > startactions[starti+1] then
 		starti = starti+1
@@ -75,19 +75,19 @@ function menu_action()
 end
 
 function menu_draw()
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	for i, v in pairs(clouds) do
 		v:draw()
 	end
 	
 	for i = 1, 2 do
-		draw(groundimg, -math.mod(scrollx, 120) + (i-1)*120, 59)
+		draw(groundimg, -math.fmod(scrollx, 120) + (i-1)*120, 59)
 	end
 	for i, v in pairs(bushes) do
 		v:draw()
 	end
 	
-	love.graphics.drawq(playerimg, playerquad[playerframe], playerx*scale, playery*scale, 0, scale, scale, 7, 12)
+	love.graphics.draw(playerimg, playerquad[playerframe], playerx*scale, playery*scale, 0, scale, scale, 7, 12)
 	for i, v in pairs(lasers) do
 		v:draw()
 	end
@@ -95,7 +95,7 @@ function menu_draw()
 	love.graphics.setColor(getrainbowcolor(rainbowi, 420))
 	draw(titleimg, 50, 23, math.sin(sini)/10, (math.sin(sini2)+1)/5+0.7, (math.sin(sini2)+1)/5+0.7, 50, 13)
 	
-	love.graphics.setColor(255, 0, 0)
+	love.graphics.setColor(1, 0, 0)
 	if starti >= 0 then
 		properprint("directed by maurice", 13, 40+textpos[0], scale/2)
 	end
@@ -121,5 +121,5 @@ function menu_draw()
 		properprint("go!", 10, 40+textpos[7], scale*6)
 	end
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 end

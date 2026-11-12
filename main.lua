@@ -1,5 +1,5 @@
 function love.load()
-	love.graphics.setDefaultImageFilter("nearest", "nearest")
+	love.graphics.setDefaultFilter("nearest", "nearest")
 	
 	require "class"
 	require "menu"
@@ -24,7 +24,7 @@ function love.load()
 	require "bullet"
 	require "bird"
 	
-	love.graphics.setIcon( love.graphics.newImage("graphics/icon.png") )
+	love.window.setIcon( love.image.newImageData("graphics/icon.png") )
 	imagelist = {"title", "cloud1", "cloud2", "ground", "bush1", "bush2", "powerup", "rocket", "star", "asteroid-big1", "sunglasses", "awesome", "arrow", "groundwin",
 				"asteroid-big2", "asteroid-small1", "asteroid-small2", "bullet", "littleexplosion", "warning", "wheatley", "alert", "randomshit", "bird"}
 	
@@ -82,13 +82,12 @@ function love.load()
 	birdquad = {love.graphics.newQuad(0, 0, 29, 16, 29, 32), love.graphics.newQuad(0, 16, 29, 16, 29, 32)}
 	
 	scale = 8
-	local w, h = love.graphics.getMode()
+	local w, h = love.window.getMode()
 	if w ~= 100*scale or h ~= 80*scale then
-		love.graphics.setMode(100*scale, 80*scale, false, true, 16)
+		love.window.setMode(100*scale, 80*scale, {vsync = 1, msaa = 16})
 	end
-	love.graphics.setIcon( love.graphics.newImage("graphics/icon.png") )
 	
-	bgmusic = love.audio.newSource("audio/trosong.ogg")
+	bgmusic = love.audio.newSource("audio/trosong.ogg", "stream")
 	bgmusic:setLooping(true)
 	lasersound = love.audio.newSource("audio/laser.wav", "static")
 	bigexplosionsound = love.audio.newSource("audio/bigexplosion.ogg", "static")
@@ -99,7 +98,7 @@ function love.load()
 	sunglassessound = love.audio.newSource("audio/sunglasses.ogg", "static")
 	splat = love.audio.newSource("audio/splat.ogg", "static")
 	ding = love.audio.newSource("audio/ding.ogg", "static")
-	credits = love.audio.newSource("audio/credits.ogg")
+	credits = love.audio.newSource("audio/credits.ogg", "stream")
 	approach = love.audio.newSource("audio/approach.ogg", "static")
 	credits:setLooping(true)
 	
@@ -192,9 +191,9 @@ function love.draw()
 	if gamestate ~= "menu" and gamestate ~= "scene6" and not landing then
 		local r, g, b = unpack(getrainbowcolor(rainbowi))
 		
-		local ar = r + (255-r)*scoreanim
-		local ag = g + (255-g)*scoreanim
-		local ab = b + (255-b)*scoreanim
+		local ar = r + (1-r)*scoreanim
+		local ag = g + (1-g)*scoreanim
+		local ab = b + (1-b)*scoreanim
 		
 		love.graphics.setColor(ar, ag, ab)
 		
@@ -211,15 +210,15 @@ function love.draw()
 	love.graphics.rotate(-shake/300)
 	love.graphics.translate(-50*scale, -40*scale)
 	if fade > 0 then
-		love.graphics.setColor(255, 255, 255, 255*fade)
+		love.graphics.setColor(1, 1, 1, fade)
 		love.graphics.rectangle("fill", 0, 0, 100*scale, 80*scale)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 	end
 end
 
-function love.keypressed(key, unicode)
+function love.keypressed(key)
 	if _G[gamestate .. "_keypressed"] then
-		_G[gamestate .. "_keypressed"](key, unicode)
+		_G[gamestate .. "_keypressed"](key)
 	end
 	
 	if key ~= "left" and key ~= "up" and key ~= "right" and key ~= "down" then
@@ -229,9 +228,9 @@ function love.keypressed(key, unicode)
 	end
 end
 
-function love.keyreleased(key, unicode)
+function love.keyreleased(key)
 	if _G[gamestate .. "_keyreleased"] then
-		_G[gamestate .. "_keyreleased"](key, unicode)
+		_G[gamestate .. "_keyreleased"](key)
 	end
 end
 
@@ -267,7 +266,7 @@ function properprint(s, x, y, sc)
 		else
 			local char = string.sub(s, i, i)
 			if fontquads[char] then
-				love.graphics.drawq(fontimage, fontquads[char], x*scale+((i-1)*8+1)*sc, y*scale, 0, sc, sc)
+				love.graphics.draw(fontimage, fontquads[char], x*scale+((i-1)*8+1)*sc, y*scale, 0, sc, sc)
 			end
 		end
 	end
@@ -312,5 +311,5 @@ function getrainbowcolor(i, whiteness)
 		add = whiteness-255
 	end
 	
-	return {math.min(255, round(r*whiteness)+add), math.min(255, round(g*whiteness)+add), math.min(255, round(b*whiteness)+add), 255}
+	return {math.min(255, round(r*whiteness)+add)/255, math.min(255, round(g*whiteness)+add)/255, math.min(255, round(b*whiteness)+add)/255, 1}
 end

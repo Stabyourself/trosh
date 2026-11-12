@@ -60,5 +60,5 @@ function enemy:checkcol(x, y, newx)
 end
 
 function enemy:draw()
-	love.graphics.drawq(enemyimg, enemyquad[self.quad], self.x*scale, self.y*scale, 0, 0.1875*scale, 0.1875*scale)
+	love.graphics.draw(enemyimg, enemyquad[self.quad], self.x*scale, self.y*scale, 0, 0.1875*scale, 0.1875*scale)
 end

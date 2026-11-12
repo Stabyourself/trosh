@@ -1,5 +1,5 @@
 function scene6_load()
-	love.graphics.setBackgroundColor(153, 217, 234)
+	love.graphics.setBackgroundColor(153/255, 217/255, 234/255)
 	love.audio.stop(bgmusic)
 	
 	clouds2 = {}
@@ -121,21 +121,21 @@ end
 function scene6_draw()
 	local r, g, b = love.graphics.getColor()
 	for i = 1, backgroundstripes, 1 do
-		if math.mod(i, 2) == 1 then
-			love.graphics.setColor(255, 255, 0, math.min(1, math.max(0, 1-(starttimer-7)/2))*255)
+		if math.fmod(i, 2) == 1 then
+			love.graphics.setColor(1, 1, 0, math.min(1, math.max(0, 1-(starttimer-7)/2)))
 		else
-			love.graphics.setColor(255, 0, 0, math.min(1, math.max(0, 1-(starttimer-7)/2))*255)
+			love.graphics.setColor(1, 0, 0, math.min(1, math.max(0, 1-(starttimer-7)/2)))
 		end
 		local pos = {31, 53}
-		local alpha = math.rad((i/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad((i/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point1 = {pos[1]*scale+200*scale*math.cos(alpha), pos[2]*scale+200*scale*math.sin(alpha)}
 		
-		local alpha = math.rad(((i+1)/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad(((i+1)/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point2 = {pos[1]*scale+200*scale*math.cos(alpha), pos[2]*scale+200*scale*math.sin(alpha)}
 		
 		love.graphics.polygon("fill", pos[1]*scale, pos[2]*scale, point1[1], point1[2], point2[1], point2[2])
 	end
-	love.graphics.setColor(r, g, b, 255)
+	love.graphics.setColor(r, g, b, 1)
 	for i,v in pairs(stars) do
 		v:draw()
 		v:draw()
@@ -152,7 +152,7 @@ function scene6_draw()
 	end
 	
 	draw(groundwinimg, -168-landdiff, 56)
-	love.graphics.drawq(winplayerimg, winplayerquad[playerquad], 30*scale, 55*scale, 0, scale, scale, 5, 13)
+	love.graphics.draw(winplayerimg, winplayerquad[playerquad], 30*scale, 55*scale, 0, scale, scale, 5, 13)
 	
 	love.graphics.translate(20*scale, 50*scale)
 	love.graphics.rotate(-math.pi/7)
@@ -169,6 +169,6 @@ function scene6_draw()
 		else
 			properprint(texts[i], 50-tostring(texts[i]):len()*s/2, 5*i, s)
 		end
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 	end
 end

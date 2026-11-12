@@ -222,6 +222,6 @@ function thrust:update(dt)
 end
 
 function thrust:draw()
-	love.graphics.setColor(255, 255, 255, 255*self.life)
+	love.graphics.setColor(1, 1, 1, self.life)
 	love.graphics.rectangle("fill", self.x*scale, self.y*scale+(rockets[1].y-self.starty)*scale, scale, scale)
 end

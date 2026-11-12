@@ -40,7 +40,7 @@ end
 
 function powerup:draw()
 	draw(powerupimg, self.x, self.y, 0, 1, 1, 8, 4)
-	love.graphics.setColor(255, 0, 0)
+	love.graphics.setColor(1, 0, 0)
 	if self.x > 0 and self.blink then
 		properprint("collect the powerup!!!", 10, 45, scale*0.5)
 	end

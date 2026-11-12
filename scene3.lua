@@ -29,7 +29,7 @@ end
 function scene3_update(dt)
 	realasteroiddelay = math.max(0.05, 8/starttimer)
 	backgroundwhite = math.max(0, backgroundwhite - dt)
-	love.graphics.setBackgroundColor(math.random(127)*backgroundwhite, math.random(127)*backgroundwhite, math.random(127)*backgroundwhite)
+	love.graphics.setBackgroundColor(math.random(127)/255*backgroundwhite, math.random(127)/255*backgroundwhite, math.random(127)/255*backgroundwhite)
 
 	if starttimer < 35 then
 		asteroidtimer = asteroidtimer + dt
@@ -94,7 +94,7 @@ function scene3_update(dt)
 	rockets[1]:update(dt)
 	
 	if (starttimer > 38 and starttimer < 40) or warningtimer > 0.1 then
-		warningtimer = math.mod(warningtimer + dt*7, math.pi*2)
+		warningtimer = math.fmod(warningtimer + dt*7, math.pi*2)
 	end
 	
 	if starttimer >= 40 and starttimer - dt < 40 then
@@ -104,17 +104,17 @@ end
 
 function scene3_draw()
 	local r, g, b = love.graphics.getColor()
-	love.graphics.setColor(math.random(255), math.random(255), math.random(255), 255*(1-scoreanim))
+	love.graphics.setColor(math.random(255)/255, math.random(255)/255, math.random(255)/255, 1-scoreanim)
 	for i = 1, backgroundstripes, 2 do
-		local alpha = math.rad((i/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad((i/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point1 = {lastexplosion[1]*scale+200*scale*math.cos(alpha), lastexplosion[2]*scale+200*scale*math.sin(alpha)}
 		
-		local alpha = math.rad(((i+1)/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad(((i+1)/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point2 = {lastexplosion[1]*scale+200*scale*math.cos(alpha), lastexplosion[2]*scale+200*scale*math.sin(alpha)}
 		
 		love.graphics.polygon("fill", lastexplosion[1]*scale, lastexplosion[2]*scale, point1[1], point1[2], point2[1], point2[2])
 	end
-	love.graphics.setColor(r, g, b, 255)
+	love.graphics.setColor(r, g, b, 1)
 
 	for i,v in pairs(stars) do
 		v:draw()
@@ -132,7 +132,7 @@ function scene3_draw()
 	end
 	
 	if (starttimer > 38 and starttimer < 40) or warningtimer > 0.1 then
-		love.graphics.setColor(255, 0, 0, math.abs(math.sin(warningtimer))*255)
+		love.graphics.setColor(1, 0, 0, math.abs(math.sin(warningtimer)))
 		draw(warningimg, -3+math.random(5)-3, 20+math.random(5)-3)
 	end
 end

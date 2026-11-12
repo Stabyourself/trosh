@@ -1,2 +1,2 @@
 # trosh
-Runs on LÖVE 0.8.0
+Runs on LÖVE 11.5

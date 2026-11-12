@@ -48,5 +48,5 @@ function bird:checkcol(x, y)
 end
 
 function bird:draw()
-	love.graphics.drawq(birdimg, birdquad[self.quad], self.x*scale, self.y*scale, 0, scale/2, scale/2, 14, 8)
+	love.graphics.draw(birdimg, birdquad[self.quad], self.x*scale, self.y*scale, 0, scale/2, scale/2, 14, 8)
 end

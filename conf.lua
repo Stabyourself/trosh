@@ -1,9 +1,12 @@
 function love.conf(t)
-	t.title = "TROSH: The Movie: The Game"
-	t.author = "Maurice"
+	t.version = "11.5"
+	t.identity = "trosh"
 	t.console = false
-	t.screen.vsync = true
-	t.screen.width = 800
-	t.screen.height = 640
-	t.screen.fsaa = 16
+	t.window.title = "TROSH: The Movie: The Game"
+	t.window.icon = "graphics/icon.png"
+	t.window.width = 800
+	t.window.height = 640
+	t.window.vsync = 1
+	t.window.msaa = 16
+	t.modules.physics = false
 end

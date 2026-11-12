@@ -45,7 +45,7 @@ function scene4_update(dt)
 	end
 	
 	if (starttimer > 0 and starttimer < 3) or alerttimer > 0.1 then
-		alerttimer = math.mod(alerttimer + dt*7, math.pi*2)
+		alerttimer = math.fmod(alerttimer + dt*7, math.pi*2)
 	end
 	
 	if jumped then
@@ -83,7 +83,7 @@ function scene4_update(dt)
 		if secondtimer > 2 then
 			local i = math.max(0, (1-(secondtimer-2)/2))
 			staralpha = math.max(0, (1-(secondtimer-2)/2))*i
-			love.graphics.setBackgroundColor(153*(1-i), 217*(1-i), 234*(1-i))
+			love.graphics.setBackgroundColor(153/255*(1-i), 217/255*(1-i), 234/255*(1-i))
 			
 			if shakeamount < 5 then
 				shakeamount = math.min(5, shakeamount+dt*3)
@@ -117,17 +117,17 @@ end
 
 function scene4_draw()
 	local r, g, b = love.graphics.getColor()
-	love.graphics.setColor(math.random(255), math.random(255), math.random(255), 255*(1-scoreanim))
+	love.graphics.setColor(math.random(255)/255, math.random(255)/255, math.random(255)/255, 1-scoreanim)
 	for i = 1, backgroundstripes, 2 do
-		local alpha = math.rad((i/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad((i/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point1 = {lastexplosion[1]*scale+200*scale*math.cos(alpha), lastexplosion[2]*scale+200*scale*math.sin(alpha)}
 		
-		local alpha = math.rad(((i+1)/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad(((i+1)/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point2 = {lastexplosion[1]*scale+200*scale*math.cos(alpha), lastexplosion[2]*scale+200*scale*math.sin(alpha)}
 		
 		love.graphics.polygon("fill", lastexplosion[1]*scale, lastexplosion[2]*scale, point1[1], point1[2], point2[1], point2[2])
 	end
-	love.graphics.setColor(r, g, b, 255)
+	love.graphics.setColor(r, g, b, 1)
 
 	for i,v in pairs(stars) do
 		v:draw()
@@ -139,7 +139,7 @@ function scene4_draw()
 		if rockets[1] then
 			off = rockets[1].startingoffset
 		end
-		love.graphics.drawq(playerimg, playerquad[flyingquad], (playerx+off)*scale, playery*scale, 0, scale, scale, 13, 6)
+		love.graphics.draw(playerimg, playerquad[flyingquad], (playerx+off)*scale, playery*scale, 0, scale, scale, 13, 6)
 	end
 	
 	if rockets[1] then
@@ -151,15 +151,15 @@ function scene4_draw()
 	
 	if (starttimer > 0 and starttimer < 3) or alerttimer > 0.1 then
 		local i = math.abs(math.sin(alerttimer))
-		love.graphics.setColor(255, 0, 0, i*100)
+		love.graphics.setColor(1, 0, 0, i*100/255)
 		love.graphics.rectangle("fill", 0, 0, 100*scale, 80*scale)
-		love.graphics.setColor(255, 0, 0, i*255)
+		love.graphics.setColor(1, 0, 0, i)
 		draw(alertimg, 50+math.random(5)-3, 40+math.random(5)-3, (math.random()*2-1)*0.1, i*0.5+0.6, i*0.5+0.6, 54, 15)
 		draw(randomshitimg, 50+math.random(20)-10, 40+math.random(20)-10, 0, 1, 1, 50, 42)
 	end
 	
 	if starttimer > 4 and not jumped then
-		love.graphics.setColor(255, 0, 0, math.random(255))
+		love.graphics.setColor(1, 0, 0, math.random(255)/255)
 		properprint("jump!!", 0, 40, scale*3)
 	end
 end

@@ -31,7 +31,7 @@ end
 
 function star:draw()
 	local r, g, b = love.graphics.getColor()
-	love.graphics.setColor(255, 255, 255, 255*staralpha)
+	love.graphics.setColor(1, 1, 1, staralpha)
 	draw(starimg, self.x, self.y, 0, 1, 1, 4.5)
 	love.graphics.setColor(r, g, b)
 end

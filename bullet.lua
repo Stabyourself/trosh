@@ -32,9 +32,9 @@ end
 
 function bullet:draw()
 	if self.kill then
-		love.graphics.setColor(255, 255, 255, (1-self.kill/0.2)*255)
+		love.graphics.setColor(1, 1, 1, 1-self.kill/0.2)
 		draw(littleexplosionimg, self.x, self.y, self.r, 1, 1, 8, 4)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 	else
 		draw(bulletimg, self.x, self.y, self.r, 1, 1, 6, 4)
 	end

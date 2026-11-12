@@ -24,7 +24,7 @@ function scene1_update(dt)
 		end
 		table.insert(enemies, enemy:new())
 	end
-	rainbowi = math.mod(rainbowi + dt/2, 1)
+	rainbowi = math.fmod(rainbowi + dt/2, 1)
 	
 
 	for i, v in pairs(clouds) do
@@ -139,24 +139,24 @@ end
 
 function scene1_draw()
 	local r, g, b = love.graphics.getColor()
-	love.graphics.setColor(math.random(255), math.random(255), math.random(255), 255*(1-scoreanim))
+	love.graphics.setColor(math.random(255)/255, math.random(255)/255, math.random(255)/255, 1-scoreanim)
 	for i = 1, backgroundstripes, 2 do
-		local alpha = math.rad((i/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad((i/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point1 = {50*scale+100*scale*math.cos(alpha), 64*scale+100*scale*math.sin(alpha)}
 		
-		local alpha = math.rad(((i+1)/backgroundstripes + math.mod(sunrot/100, 1)) * 360)
+		local alpha = math.rad(((i+1)/backgroundstripes + math.fmod(sunrot/100, 1)) * 360)
 		local point2 = {50*scale+100*scale*math.cos(alpha), 64*scale+100*scale*math.sin(alpha)}
 		
 		love.graphics.polygon("fill", 50*scale, 64*scale, point1[1], point1[2], point2[1], point2[2])
 	end
-	love.graphics.setColor(r, g, b, 255)
+	love.graphics.setColor(r, g, b, 1)
 
 	for i, v in pairs(clouds) do
 		v:draw()
 	end
 	
 	for i = 1, 2 do
-		draw(groundimg, -math.mod(scrollx, 100) + (i-1)*100, 59)
+		draw(groundimg, -math.fmod(scrollx, 100) + (i-1)*100, 59)
 	end
 	for i, v in pairs(bushes) do
 		v:draw()
@@ -172,18 +172,18 @@ function scene1_draw()
 		rockets[1]:draw()
 	end
 	
-	love.graphics.drawq(playerimg, playerquad[playerframe], playerx*scale, playery*scale, 0, scale, scale, 7, 12)
+	love.graphics.draw(playerimg, playerquad[playerframe], playerx*scale, playery*scale, 0, scale, scale, 7, 12)
 	for i, v in pairs(lasers) do
 		v:draw()
 	end
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	for i, v in pairs(powerups) do
 		v:draw()
 	end
 	
 	if starttimer > 46 then
-		love.graphics.setColor(255, 0, 0)
+		love.graphics.setColor(1, 0, 0)
 		properprint("get in the rocket!!!", 10, 45, scale*0.5)
 	end
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 end
