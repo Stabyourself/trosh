@@ -174,6 +174,7 @@ function love.mousepressed()
 end
 
 function love.update(dt)
+	dt = math.min(dt, 1/30)
 	if skipupdate then
 		skipupdate = false
 		return
