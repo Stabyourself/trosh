@@ -84,6 +84,9 @@ function love.load()
 	birdquad = {love.graphics.newQuad(0, 0, 29, 16, 29, 32), love.graphics.newQuad(0, 16, 29, 16, 29, 32)}
 	
 	scale = 8
+	if isweb then
+		scale = webscale()
+	end
 	local w, h = love.window.getMode()
 	if w ~= 100*scale or h ~= 80*scale then
 		love.window.setMode(100*scale, 80*scale, {vsync = 1, msaa = 16})
@@ -173,8 +176,36 @@ function love.mousepressed()
 	end
 end
 
+--web: biggest whole scale that fits the browser window, the page stretches the rest
+function webscale()
+	local size = love.js and love.js.eval and
+		love.js.eval("Math.floor(innerWidth*devicePixelRatio)+' '+Math.floor(innerHeight*devicePixelRatio)")
+	local w, h = string.match(size or "", "(%d+) (%d+)")
+	if not w then
+		return scale
+	end
+	return math.max(1, math.min(math.floor(tonumber(w)/100), math.floor(tonumber(h)/80)))
+end
+
+local webscaletimer = 0
+function updatewebscale(dt)
+	webscaletimer = webscaletimer + dt
+	if webscaletimer < 0.5 then
+		return
+	end
+	webscaletimer = 0
+	local s = webscale()
+	if s ~= scale then
+		scale = s
+		love.window.setMode(100*scale, 80*scale, {vsync = 1, msaa = 16})
+	end
+end
+
 function love.update(dt)
 	dt = math.min(dt, 1/30)
+	if isweb then
+		updatewebscale(dt)
+	end
 	if skipupdate then
 		skipupdate = false
 		return
