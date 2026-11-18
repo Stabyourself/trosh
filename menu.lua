@@ -121,5 +121,6 @@ function menu_draw()
 		properprint("go!", 10, 40+textpos[7], scale*6)
 	end
 	
+	drawflashwarning()
 	love.graphics.setColor(1, 1, 1)
 end

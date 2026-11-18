@@ -163,7 +163,13 @@ function clicktostart_draw()
 		love.graphics.setColor(1, 0, 0)
 		properprint("press any key", 24, 50, scale/2)
 	end
+	drawflashwarning()
 	love.graphics.setColor(1, 1, 1)
+end
+
+function drawflashwarning()
+	love.graphics.setColor(1, 0, 0)
+	properprint("warning: flashing imagery", 25, 2, scale/4)
 end
 
 function clicktostart_keypressed()
